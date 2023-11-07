@@ -1,0 +1,30 @@
+{
+  "name": "simple_electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main/index.js",
+  "scripts": {
+    "dev_vite": "vite",
+    "dev_electron": "NODE_ENV=dev electron ./src/main/main.js",
+    "build": "vite build",
+    "pack": "electron-builder build --config electron-builder.config.js --dir",
+    "esbuild": "esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=src/main/out.js",
+    "preview":"electron ./dist/main/index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "electron": "^27.0.2",
+    "electron-rebuild": "^3.2.9",
+    "esbuild": "0.19.5",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.5.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.0.0",
+    "bytenode": "^1.5.3"
+  }
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="/codemirror/codemirror.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="/codemirror/codemirror.js"></script>
+    <script type="module" src="./js/index.js"></script>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    <h1 class="text-3xl font-bold underline">
+    Hello tailwind! (underline)
+    </h1>
+    We are using Node.js <span id="node-version"></span>,
+    Chromium <span id="chrome-version"></span>,
+    and Electron <span id="electron-version"></span>.
+    <h2 id="h2"></h2>
+
+    <h1 class="font-bold underline text-4xl">hello world</h1>
+    <textarea id="editor">
+
+    </textarea>
+  </body>
+</html>

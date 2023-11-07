@@ -1,0 +1,5 @@
+
+*.db
+out
+node_modules
+dist
