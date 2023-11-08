@@ -1,13 +1,3 @@
-/**
- * TODO: Rewrite this config to ESM
- * But currently electron-builder doesn't support ESM configs
- * @see https://github.com/develar/read-config-file/issues/10
- */
-
-/**
- * @type {() => import('electron-builder').Configuration}
- * @see https://www.electron.build/configuration/configuration
- */
 module.exports = async function () {
   return {
     directories: {
@@ -21,5 +11,14 @@ module.exports = async function () {
         "package.json",
         "**/node_modules/**/*"
     ],
+    linux: {
+      target: "AppImage",
+    },    
+    mac: {
+      target: "dmg",
+    },
+    win: {
+      target: "nsis",
+    },
   };
 };

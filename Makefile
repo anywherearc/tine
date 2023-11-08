@@ -13,30 +13,27 @@ main: bundle_main
 PRELOAD_SRC := ./src/preload
 PRELOAD_OUT := ./dist/preload
 
-# Find all .js files in the source directory
+# Find all .js files in the source preload directory
 SOURCES := $(wildcard $(PRELOAD_SRC)/*.js)
 
 # Define the target files by replacing .js with .jsc in the list of source files
 TARGETS := $(SOURCES:$(PRELOAD_SRC)/%.js=$(PRELOAD_OUT)/%.jsc)
+.PHONY: $(PRELOAD_OUT)/%.jsc
 
-# Ensure the output directory exists
 $(PRELOAD_OUT):
 	mkdir -p $@
 
-# Pattern rule for building .jsc from .js
+# Pattern rule for building bytecode from .js
 $(PRELOAD_OUT)/%.jsc: $(PRELOAD_SRC)/%.js | $(PRELOAD_OUT)
 	npx bytenode -e -c $<
-	mv $(PRELOAD_SRC)/$(notdir $<)c $@
-	node scripts/loader.js $(notdir $<)c $(PRELOAD_OUT)/$(notdir $<)
+	mv $(PRELOAD_SRC)/$(notdir $@) $@
+	node scripts/loader.js $(notdir $@) $(PRELOAD_OUT)/$(notdir $<)
 
-# Phony target for preload
-.PHONY: preload
 preload: $(TARGETS)
 
-# Clean target for removing generated files
-.PHONY: clean
+# Clean target for removing all generated files
 clean:
-	rm -rf dist/*
+	rm -rf dist/* out/*
 
 .PHONY: renderer
 renderer:
@@ -46,7 +43,8 @@ renderer:
 pack:
 	npx electron-builder build --config electron-builder.config.js --dir
 
-release: renderer preload main
+.PHONY: release
+release: renderer preload main 
 
-preview: release
+preview: 
 	npx electron ./dist/main/index.js
