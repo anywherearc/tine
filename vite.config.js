@@ -28,8 +28,7 @@ export default defineConfig({
             ],
         },
     },
-    // Configure server for development
     server: {
-        port: 3000 // Port number for the dev server
+        port: 3000 
     },
 });
