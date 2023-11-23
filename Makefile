@@ -1,50 +1,46 @@
+.PHONY: all bundle_main main preload renderer pack release preview clean publish
 
-.PHONY: bundle_main
-bundle_main:
-	mkdir -p ./dist/main/
-	npx esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=./dist/main/main.js
-
-.PHONY: main
-main: bundle_main
-	npx bytenode -e -c ./dist/main/main.js
-	node scripts/loader.js main.jsc ./dist/main/index.js
-	@rm ./dist/main/main.js
-
+DIST := ./dist
+MAIN_DIST := $(DIST)/main
 PRELOAD_SRC := ./src/preload
-PRELOAD_OUT := ./dist/preload
+PRELOAD_DIST := $(DIST)/preload
 
-# Find all .js files in the source preload directory
 SOURCES := $(wildcard $(PRELOAD_SRC)/*.js)
+TARGETS := $(SOURCES:$(PRELOAD_SRC)/%.js=$(PRELOAD_DIST)/%.jsc)
 
-# Define the target files by replacing .js with .jsc in the list of source files
-TARGETS := $(SOURCES:$(PRELOAD_SRC)/%.js=$(PRELOAD_OUT)/%.jsc)
-.PHONY: $(PRELOAD_OUT)/%.jsc
+all: publish
 
-$(PRELOAD_OUT):
+bundle_main:
+	mkdir -p $(MAIN_DIST)
+	npx esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=$(MAIN_DIST)/main.js
+
+main: bundle_main
+	npx bytenode -e -c $(MAIN_DIST)/main.js
+	@rm $(MAIN_DIST)/main.js  
+	node scripts/loader.js main.jsc $(MAIN_DIST)/main.js
+
+$(PRELOAD_DIST):
 	mkdir -p $@
 
-# Pattern rule for building bytecode from .js
-$(PRELOAD_OUT)/%.jsc: $(PRELOAD_SRC)/%.js | $(PRELOAD_OUT)
+$(PRELOAD_DIST)/%.jsc: $(PRELOAD_SRC)/%.js | $(PRELOAD_DIST)
 	npx bytenode -e -c $<
 	mv $(PRELOAD_SRC)/$(notdir $@) $@
-	node scripts/loader.js $(notdir $@) $(PRELOAD_OUT)/$(notdir $<)
+	node scripts/loader.js $(notdir $@) $(PRELOAD_DIST)/$(notdir $<)
 
 preload: $(TARGETS)
 
-# Clean target for removing all generated files
-clean:
-	rm -rf dist/* out/*
-
-.PHONY: renderer
 renderer:
 	npx vite build 
 
-.PHONY: pack
 pack:
 	npx electron-builder build --config electron-builder.config.js --dir
 
-.PHONY: release
-release: renderer preload main 
+release: renderer preload main
+
+publish: release pack
 
 preview: 
-	npx electron ./dist/main/index.js
+	npx electron $(MAIN_DIST)/index.js
+
+clean:
+	rm -rf $(DIST)/* out/*

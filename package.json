@@ -2,14 +2,13 @@
   "name": "simple_electron",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main/index.js",
+  "main": "src/main/main.js",
   "scripts": {
     "dev_vite": "vite",
-    "dev_electron": "NODE_ENV=dev electron ./src/main/main.js",
+    "dev_electron": "NODE_ENV=dev electron .",
     "build": "vite build",
     "pack": "electron-builder build --config electron-builder.config.js --dir",
-    "esbuild": "esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=src/main/out.js",
-    "preview":"electron ./dist/main/index.js"
+    "esbuild": "esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=src/main/out.js"
   },
   "author": "",
   "license": "MIT",
