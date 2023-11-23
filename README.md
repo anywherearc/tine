@@ -1,4 +1,4 @@
-# tine [![Build Status](https://github.com/anywherearc/tine/blob/master/.github/workflows/release.yml/badge.svg)](https://github.com/anywherearc/tine/blob/master/.github/workflows/release.yml?query=branch%3Amaster)
+# tine 
 
 **tine** offers a straightforward development approach using Electron architecture. This project focuses on simplicity, eschewing complex frameworks in favor of Vanilla JS for a more accessible development experience.
 
