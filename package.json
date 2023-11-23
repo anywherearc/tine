@@ -5,12 +5,9 @@
   "main": "src/main/main.js",
   "scripts": {
     "dev_vite": "vite",
-    "dev_electron": "NODE_ENV=dev electron .",
-    "build": "vite build",
-    "pack": "electron-builder build --config electron-builder.config.js --dir",
-    "esbuild": "esbuild src/main/main.js --platform=node --packages=external --minify --bundle --outfile=src/main/out.js"
+    "dev_electron": "NODE_ENV=dev electron ."
   },
-  "author": "",
+  "author": "https://github.com/leyafo",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^10.4.16",
